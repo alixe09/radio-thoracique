@@ -31,6 +31,22 @@ def get_model():
     return load_trained_model()
 
 
+threshold = st.slider(
+    "Seuil de détection de la pneumonie",
+    min_value=0.3,
+    max_value=0.95,
+    value=0.5,
+    step=0.05,
+    help="Plus le seuil est bas, plus le modèle détecte de pneumonies (sensibilité "
+    "élevée) mais plus il génère de fausses alertes sur des radios normales.",
+)
+
+st.info(
+    "Le modèle est entraîné sur des radios **pédiatriques** (1 à 5 ans) d'un seul "
+    "hôpital : sur d'autres types d'images (adultes, autres appareils, photos), "
+    "il a tendance à répondre « pneumonie » avec un score élevé, à tort."
+)
+
 uploaded_file = st.file_uploader(
     "Charger une radio thoracique (JPEG/PNG)", type=["jpg", "jpeg", "png"]
 )
@@ -47,7 +63,7 @@ if uploaded_file is not None:
         )
         st.stop()
 
-    label, confidence, img_array = predict(model, image)
+    label, proba, img_array = predict(model, image, threshold)
 
     col1, col2 = st.columns(2)
 
@@ -62,9 +78,9 @@ if uploaded_file is not None:
         st.image(overlay, use_container_width=True)
 
     if label == "PNEUMONIA":
-        st.error(f"**Prédiction : {label}** (confiance : {confidence:.1%})")
+        st.error(f"**Prédiction : {label}** (score de pneumonie : {proba:.1%})")
     else:
-        st.success(f"**Prédiction : {label}** (confiance : {confidence:.1%})")
+        st.success(f"**Prédiction : {label}** (score de pneumonie : {proba:.1%})")
 
     st.caption(
         "La heatmap Grad-CAM met en évidence les régions de l'image qui ont le "

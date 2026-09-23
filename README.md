@@ -59,6 +59,36 @@ Observations :
   dataset : le jeu de test provient d'une distribution légèrement différente.
 - Entraînement réalisé sur CPU (~25 min pour 8 epochs).
 
+## Limites
+
+- **Population très spécifique** : radios pédiatriques (1 à 5 ans) d'un seul hôpital
+  (Guangzhou). Le modèle n'a aucune raison de généraliser aux adultes, à d'autres
+  appareils ou à des photos de radios : sur ce type d'images, il répond très
+  souvent « pneumonie » avec un score élevé, à tort.
+- **Biais vers la classe PNEUMONIA** (74 % des données d'entraînement) : malgré la
+  pondération des classes, le recall sur les radios normales n'est que de 0.80.
+- **Score non calibré** : la sortie du modèle n'est pas une probabilité fiable, un
+  score de 98 % ne signifie pas « sûr à 98 % ».
+- **Grad-CAM grossier** : la carte est calculée sur une grille 7×7, elle indique des
+  zones d'attention générales, pas une localisation précise de la lésion.
+- Pas de validation clinique ni de validation externe.
+
+### Choix du seuil de décision
+
+Le seuil de 0.5 est conservé par défaut. L'appli propose un curseur pour arbitrer
+entre sensibilité et fausses alertes ; effet sur le jeu de test :
+
+| Seuil | Recall PNEUMONIA | Recall NORMAL | Accuracy |
+|---|---|---|---|
+| 0.5 | 0.96 | 0.80 | 0.90 |
+| 0.7 | 0.92 | 0.85 | 0.89 |
+| 0.8 | 0.89 | 0.89 | 0.89 |
+| 0.9 | 0.85 | 0.94 | 0.88 |
+
+Analyse de sensibilité indicative uniquement : le seuil optimal calculé sur la
+validation (0.32) se transfère mal au test (distribution légèrement différente), ce
+qui illustre bien la fragilité du modèle face à un changement de données.
+
 ## Stack
 
 - TensorFlow / Keras : transfer learning (EfficientNetB0)
