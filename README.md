@@ -13,6 +13,8 @@ learning vs ML classique).
 recherche de stage. Ce n'est **pas** un dispositif médical et ne doit pas être
 utilisé pour un diagnostic réel.
 
+![Aperçu de l'application](docs/app-screenshot.png)
+
 ## Dataset
 
 [Chest X-Ray Images (Pneumonia) — Kaggle](https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia),
@@ -35,8 +37,27 @@ validation fiable par split stratifié de `train/` (voir `src/preprocessing.py`)
 
 ## Résultats
 
-_À compléter après entraînement (`python src/train.py`) — rapport de classification
-et ROC-AUC sur le jeu de test affichés en fin d'exécution._
+Évaluation du modèle retenu (meilleur point sur la validation, `val_AUC` = 0.993) sur
+le jeu de test officiel de 624 radios, jamais vu pendant l'entraînement :
+
+| Classe | Precision | Recall | F1 |
+|---|---|---|---|
+| NORMAL | 0.93 | 0.80 | 0.86 |
+| PNEUMONIA | 0.89 | **0.96** | 0.92 |
+
+**ROC-AUC : 0.961** — accuracy : 0.90.
+
+Comme pour le projet AVC, le recall sur la classe malade est le critère prioritaire :
+en contexte médical, rater une pneumonie (faux négatif) est plus grave que déclencher
+une fausse alerte. Le modèle détecte 96 % des pneumonies, au prix de quelques fausses
+alertes sur radios normales (recall NORMAL de 0.80).
+
+Observations :
+- Le fine-tuning des dernières couches n'a pas amélioré la validation par rapport à
+  l'entraînement de la tête seule ; le meilleur modèle vient de la phase 1.
+- L'écart entre la validation (AUC 0.99) et le test (AUC 0.96) est connu sur ce
+  dataset : le jeu de test provient d'une distribution légèrement différente.
+- Entraînement réalisé sur CPU (~25 min pour 8 epochs).
 
 ## Stack
 
@@ -93,5 +114,5 @@ pip install -r requirements.txt
 - [x] Modèle par transfer learning (EfficientNetB0) + fine-tuning
 - [x] Grad-CAM pour l'explicabilité
 - [x] Interface Streamlit
-- [ ] Entraînement effectif et résultats chiffrés (nécessite le dataset)
+- [x] Entraînement effectif et résultats chiffrés
 - [ ] Déploiement sur Streamlit Community Cloud

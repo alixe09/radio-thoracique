@@ -16,7 +16,7 @@ def load_trained_model(model_path=MODEL_PATH):
 
 def preprocess_image(image: Image.Image, img_size=IMG_SIZE):
     image = image.convert("RGB").resize(img_size)
-    array = np.array(image) / 255.0
+    array = np.array(image, dtype="float32")
     return np.expand_dims(array, axis=0)
 
 

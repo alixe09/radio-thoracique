@@ -22,7 +22,6 @@ def get_generators(
     validation_split=VALIDATION_SPLIT,
 ):
     train_datagen = ImageDataGenerator(
-        rescale=1.0 / 255,
         rotation_range=10,
         zoom_range=0.1,
         width_shift_range=0.05,
@@ -30,7 +29,7 @@ def get_generators(
         horizontal_flip=False,
         validation_split=validation_split,
     )
-    eval_datagen = ImageDataGenerator(rescale=1.0 / 255)
+    eval_datagen = ImageDataGenerator()
 
     train_gen = train_datagen.flow_from_directory(
         f"{data_dir}/train",

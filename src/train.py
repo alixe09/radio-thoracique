@@ -14,8 +14,8 @@ from preprocessing import IMG_SIZE, get_generators
 
 MODEL_PATH = "models/best_model.keras"
 HISTORY_PATH = "models/history.json"
-EPOCHS_HEAD = 10
-EPOCHS_FINE_TUNE = 5
+EPOCHS_HEAD = 5
+EPOCHS_FINE_TUNE = 3
 
 
 def build_model(img_size=IMG_SIZE):
@@ -58,8 +58,8 @@ def main():
     )
 
     callbacks = [
-        ModelCheckpoint(MODEL_PATH, monitor="val_auc", mode="max", save_best_only=True),
-        EarlyStopping(monitor="val_auc", mode="max", patience=4, restore_best_weights=True),
+        ModelCheckpoint(MODEL_PATH, monitor="val_AUC", mode="max", save_best_only=True),
+        EarlyStopping(monitor="val_AUC", mode="max", patience=4, restore_best_weights=True),
         ReduceLROnPlateau(monitor="val_loss", factor=0.5, patience=2),
     ]
 
