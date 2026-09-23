@@ -77,7 +77,7 @@ if uploaded_file is not None:
         overlay = overlay_heatmap(img_array[0], heatmap)
         st.image(overlay, use_container_width=True)
 
-    if label == "PNEUMONIA":
+    if label == "PNEUMONIE":
         st.error(f"**Prédiction : {label}** (score de pneumonie : {proba:.1%})")
     else:
         st.success(f"**Prédiction : {label}** (score de pneumonie : {proba:.1%})")

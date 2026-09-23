@@ -7,7 +7,7 @@ from tensorflow.keras.models import load_model
 from preprocessing import IMG_SIZE
 from train import MODEL_PATH
 
-CLASS_NAMES = {0: "NORMAL", 1: "PNEUMONIA"}
+CLASS_NAMES = {0: "NORMAL", 1: "PNEUMONIE"}
 
 
 def load_trained_model(model_path=MODEL_PATH):
