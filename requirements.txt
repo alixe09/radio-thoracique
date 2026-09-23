@@ -1,10 +1,7 @@
 tensorflow==2.16.1
 numpy
-pandas
 matplotlib
-seaborn
 scikit-learn
-opencv-python
+opencv-python-headless
 Pillow
 streamlit
-grad-cam

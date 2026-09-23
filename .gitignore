@@ -5,5 +5,4 @@ __pycache__/
 data/raw/
 data/processed/
 models/*.h5
-models/*.keras
 .streamlit/
