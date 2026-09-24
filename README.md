@@ -9,6 +9,8 @@ démarche (pipeline complet, interprétabilité, démo Streamlit) appliquée à 
 modalité de données (image vs tabulaire) et une autre famille de modèles (deep
 learning vs ML classique).
 
+🔗 **Démo en ligne** : [Ouvrir l'application](https://radio-thoracique-9er4ucrhqz3igjzphmxx2d.streamlit.app)
+
 ⚠️ **Disclaimer** : outil pédagogique réalisé dans un cadre de projet personnel /
 recherche de stage. Ce n'est **pas** un dispositif médical et ne doit pas être
 utilisé pour un diagnostic réel.
@@ -145,4 +147,5 @@ pip install -r requirements.txt
 - [x] Grad-CAM pour l'explicabilité
 - [x] Interface Streamlit
 - [x] Entraînement effectif et résultats chiffrés
-- [ ] Déploiement sur Streamlit Community Cloud
+- [x] Déploiement sur Streamlit Community Cloud
+- [ ] Validation externe sur un autre dataset de radios pédiatriques
